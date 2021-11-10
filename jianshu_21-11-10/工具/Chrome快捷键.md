@@ -1,0 +1,5 @@
+![标签页和窗口快捷键](https://upload-images.jianshu.io/upload_images/21580557-264781361dec8f1f?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![功能快捷键](https://upload-images.jianshu.io/upload_images/21580557-82140aa78df06682?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![地址栏快捷键](https://upload-images.jianshu.io/upload_images/21580557-4b1147465180511c?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![网页快捷键](https://upload-images.jianshu.io/upload_images/21580557-44e6421b6d48ff1d?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![鼠标快捷键](https://upload-images.jianshu.io/upload_images/21580557-490cf1763e028cc3?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
