@@ -1,24 +1,3 @@
-# 一、说明
-简书前几天莫名其妙的宕机让我有些后怕，数据备份提上日程。
-
-简书虽然有导出文章的功能，但是文章中的图片还是放在简书自己的图床中，需要自己下载图片并替换掉文章中的图片地址。如果文章和图片数量少，人肉操作还可以接受；一旦数量巨大，那么费时费力还容易出错。
-
-所以网上找了些文章，写了一个小程序并打包成了exe工具，实现这个功能。
-需要先从简书下载打包的文章，解压后在目录中启动程序，就会自动下载图片并替换图片地址。
-
-
-<br>
-# 二、程序
-安装module
-```
-pip install misaka==2.1.1
-pip install bs4
-```
-misaka模块安装时需要依赖Microsoft Visual环境，可以去官网下载或找帖子解决。
-如果是python2.x，还需要安装concurrent模块。
-
-代码如下
-```
 from misaka import Markdown, HtmlRenderer
 from os import walk, path, mkdir, removedirs
 from uuid import uuid4
@@ -172,45 +151,3 @@ if __name__ == '__main__':
     logger.info("=" * 15 + " 任 务 完 成 " + "=" * 15)
     with open('./downimg.log', 'a', encoding='utf-8') as log:
         log.buffer.write(f'任务完成 -- {time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())} \n'.encode())
-```
->使用线程池进行并发处理，使用tkinter显示进度条。
-
-<br>
-# 三、打包exe文件
-安装pyinstaller模块
-```
-pip install pyinstaller -i https://pypi.tuna.tsinghua.edu.cn/simple --trusted-host pypi.tuna.tsinghua.edu.cn
-```
-执行打包程序
-```
-pyinstaller -F -w -i .\downimg.ico --hidden-import=_cffi_backend .\downimg.py
-```
-
-**参数说明：**
-1. -i 给应用程序添加图标
-2. -F 指定打包后只生成一个exe格式的文件
-3. -D –onedir 创建一个目录，包含exe文件，但会依赖很多文件（默认选项）
-4. -c –console, –nowindowed 使用控制台，无界面(默认)
-5. -w –windowed, –noconsole 使用窗口，无控制台
-6. -p 添加搜索路径
-
-**注意点：**
-1. 如果启动exe文件报错No module named '_cffi_backend'，需要在打包时添加--hidden-import=_cffi_backend参数；
-2. 尽量避免import整个库，如果打出的包很大，运行时可以试试带参数--exclude pandas --exclude numpy。
-
-<br>
-# 四、小工具
-打包完成后获取到的exe执行文件，运行后会扫描当前目录和子目录的所有.md格式的文件，下载文件中的网络图片到本地，并替换图片地址为本地地址。
-
-**下载地址(服务器带宽小，网速很慢)：**https://chenjie.asia/downimg.exe
-
-**注意点：**
-1. 一定要备份原数据后再使用，一定要备份原数据后再使用，一定要备份原数据后再使用，完成后再检查一下是否有错误。工具只经过简单的测试，可能会出现bug。
-2. 将工具放到目录下启动，就会扫描本目录和子目录的md文件，并下载图片和替换地址。
-3. 运行中可能因为网络或链接问题导致任务异常，日志信息会输出到工具所在的目录的downimg.log文件中，推荐使用notepad等工具打开。如果有错误信息，则可以看到是哪个文件出了问题，将工具放到文件所在目录下再次启动或直接自己手动下载。
-4. 如果文章中有html代码，且代码中有img标签和src属性，那么这篇文章可能会失败。可能是bs解析时出现的bug。
-5. 如果有问题或者建议，可以给我评论。
-
-
-<br>
-参考文章：https://github.com/Deali-Axy/Markdown-Image-Parser

@@ -256,7 +256,7 @@ def start_gui():
         messagebox.showinfo("功能描述", description)
 
     button_descri = Button(window, text="功能描述", width=15, command=function_describe)
-    button_descri.pack( fill=constants.Y, pady=20, padx=15)
+    button_descri.pack(fill=constants.Y, pady=20, padx=15)
 
 
 def exec_gui(files_list):
