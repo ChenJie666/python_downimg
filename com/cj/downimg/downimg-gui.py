@@ -11,6 +11,7 @@ from PIL.ImageTk import PhotoImage
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from tkinter import Tk, constants, Scrollbar, Canvas, BooleanVar, Checkbutton, Label, Button, Frame, messagebox
 from threading import Thread
+import os, sys
 
 
 # from multiprocessing import cpu_count
@@ -221,7 +222,10 @@ def start_gui():
         inv_btn.grid(row=0, column=2, sticky=constants.W, padx="2")
 
         global dir_path
-        dir_path = askdirectory(initialdir=path.dirname(__file__))
+        dir_path = askdirectory(initialdir=os.path.abspath('.'))
+        # dir_path = askdirectory(initialdir=os.path.realpath(sys.argv[0]))
+        # dir_path = askdirectory(initialdir=path.dirname(__file__))
+
         for index, file in enumerate(get_files_list()):
             # 复选框
             file_dict[file] = BooleanVar(frame)
