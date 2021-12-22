@@ -9,7 +9,7 @@ Vue框架中ES6的语法支持js间的方法调用，axios进行了封装
 3.可以通过live server启动服务器，访问127.0.0.1:5500访问所有的命名空间。
 
 VSCode的debug模式，在需要加断点的地方插入debugger，就会在该行停止。
-![image.png](https://upload-images.jianshu.io/upload_images/21580557-7809502d26687af6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![image.png](VSCode、JS、Vue简单语法.assets\362b4c805fe447f68e3611a58a7b7277.png)
 
 
 
@@ -257,7 +257,7 @@ npm config list
 3.1下载依赖
 npm install 依赖名称@版本
 
-![项目目录](https://upload-images.jianshu.io/upload_images/21580557-431185efcca76ead.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![项目目录](VSCode、JS、Vue简单语法.assets\a4b425958f4547dfabc5fb7ebbabde8e.png)
 下载完成后会生成package-lock.json文件和modules模块：
 ① package-lock.json记录了依赖的版本并锁定，只能使用记录的版本的依赖
 ② modules存储了
@@ -363,7 +363,7 @@ npm install -g webpack webpack-cli
 webpack -v 查看版本
 2.创建用于打包的js文件
 创建三个js文件
-![image.png](https://upload-images.jianshu.io/upload_images/21580557-acc83b650e86e87b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![image.png](VSCode、JS、Vue简单语法.assets\6d2a2bdbe7b246498b622c4efea3690a.png)
 common.js
 ```js
 exports.info = function(str){

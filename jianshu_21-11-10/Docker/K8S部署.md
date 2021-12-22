@@ -30,7 +30,7 @@ $ kubeadm join <Master节点的IP和端口 >
 
 ## 3. 准备环境
 
-![架构图](https://upload-images.jianshu.io/upload_images/21580557-694d71a86e5172eb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![架构图](K8S部署.assets\f6a54aca2ece495cb90f7e4138e24bd0.png)
 
 
 ```
@@ -264,9 +264,9 @@ $ kubectl describe secrets -n kube-system $(kubectl -n kube-system get secret | 
 
 使用输出的token登录Dashboard。
 
-![登录.jpg](https://upload-images.jianshu.io/upload_images/21580557-851f1f71c3e28918.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![登录.jpg](K8S部署.assets\427958f31a6149a59f92f2ce0f4d213a.png)
 
-![界面.jpg](https://upload-images.jianshu.io/upload_images/21580557-0078af2baec42a74.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![界面.jpg](K8S部署.assets\8830c432736b4880878f5b8f36b95c31.png)
 
 
 

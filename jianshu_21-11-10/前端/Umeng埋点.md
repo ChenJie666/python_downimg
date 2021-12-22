@@ -1,7 +1,7 @@
 友盟数据上报策略：1.启动时上报 2.关闭时上报 3.周期性上报
 
 #App埋点数据收集流程图：
-![image.png](https://upload-images.jianshu.io/upload_images/21580557-168abc9701dbcb1c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![image.png](Umeng埋点.assets\7648341814734cfbbdf0f3ce06b72c34.png)
 
 友盟统计指标：
 ①用户app激活数据信息明细

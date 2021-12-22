@@ -2010,8 +2010,8 @@ score(q,d)  =  #1
 
 **_score 分数的计算影响因素:**
 
-- 1）**TF（Term Frequency）**：词频，即单词在文档中出现的次数，词频越高，相关度越高。TF 的计算永远是100%的精确，这是因为它是一个文档级的计算，文档内容可以在本地分片中获取。公式为`tf(t in d) = √frequency`，即term在文件 d 的词频（tf）是这个术语在文档中出现次数的平方根)![image.png](https://upload-images.jianshu.io/upload_images/21580557-804a55c4caddec4d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-- 2）**IDF（Inverse Document Frequency）**：逆向文档词频 ，计算公式为 term/document ，即单词出现的文档数越少，相关度越高。公式为`idf(t) = 1 + log ( numDocs / (docFreq + 1)) `，即术语t的逆向文档频率（Inverse document frequency）是：索引中文档数量除以所有包含该术语文档数量后的对数值。![image.png](https://upload-images.jianshu.io/upload_images/21580557-3e2a4a52004a08d6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+- 1）**TF（Term Frequency）**：词频，即单词在文档中出现的次数，词频越高，相关度越高。TF 的计算永远是100%的精确，这是因为它是一个文档级的计算，文档内容可以在本地分片中获取。公式为`tf(t in d) = √frequency`，即term在文件 d 的词频（tf）是这个术语在文档中出现次数的平方根)![image.png](Elasticsearch自定义分析器.assets\b1a01b51196647eb850106011b5691b0.png)
+- 2）**IDF（Inverse Document Frequency）**：逆向文档词频 ，计算公式为 term/document ，即单词出现的文档数越少，相关度越高。公式为`idf(t) = 1 + log ( numDocs / (docFreq + 1)) `，即术语t的逆向文档频率（Inverse document frequency）是：索引中文档数量除以所有包含该术语文档数量后的对数值。![image.png](Elasticsearch自定义分析器.assets\13e32d0bc88347e98162631922a305e7.png)
 - 3）**Field-length Norm**：字段长度正则值，较短的字段比较长的字段更相关。`norm(d) = 1 / √numTerms`，即字段长度正则值是字段中术语数平方根的倒数。
 - 4）**Query Normalization Factor**：查询正则因子（queryNorm）试图将查询正则化，这样就能比较两个不同查询结果。尽管查询正则值的目的是为了使查询结果之间能够相互比较，但是它并不十分有效，因为相关度分数_score 的目的是为了将当前查询的结果进行排序，比较不同查询结果的相关度分数没有太大意义。
 - 5）**Query Coordination**：协调因子（coord）可以为那些查询术语包含度高的文档提供“奖励”，文档里出现的查询术语越多，它越有机会成为一个好的匹配结果。
@@ -2022,7 +2022,7 @@ score(q,d)  =  #1
 ### 4.1.2 计算模型
 
 4.x之前的计算模型如下
-![image.png](https://upload-images.jianshu.io/upload_images/21580557-55fdf4244673dab4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![image.png](Elasticsearch自定义分析器.assets\30d9cff2cb1541af8a2974f3cbdf122c.png)
 
 5.x之后的计算模型优化了BM25算法：优化了词频很大时对打分的影响过大。
 原理：当f()，即词频无限大时，该文档的打分无限接近平稳，即(k+1)。而TF模型，词频无限大时打分也无限大。
