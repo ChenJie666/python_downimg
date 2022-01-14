@@ -11,6 +11,7 @@ from PIL.ImageTk import PhotoImage
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from tkinter import Tk, constants, Scrollbar, Canvas, BooleanVar, Checkbutton, Label, Button, Frame, messagebox
 from threading import Thread
+import sys
 
 
 # from multiprocessing import cpu_count
@@ -309,13 +310,18 @@ if __name__ == '__main__':
     basicConfig(level="INFO")
     logger = getLogger()
 
+    # 引入图片
+    bundle_dir = getattr(sys, '_MEIPASS', path.abspath(path.dirname(__file__)))
+    path_to_icon = path.join(bundle_dir, 'icon')
+
+
     window = Tk()
     window.title(
         "md格式文章网络图片下载                                                                                      Authored By: CJ")
     win_width = 600
     win_height = 350
     window.geometry(f"{win_width}x{win_height}+600+300")
-    window.iconbitmap("C:/Users/CJ/Desktop/icon/lighting64.ico")
+    window.iconbitmap(path_to_icon + '/lighting64.ico')
 
     # 创建Frame
     item_frame = Frame(window, relief=constants.GROOVE, bd=1)
@@ -353,10 +359,10 @@ if __name__ == '__main__':
     progressbar = Progressbar(window, length=200, mode="determinate", maximum=100, name="完成进度",
                               orient=constants.HORIZONTAL, value=0, variable=0)
     # 添加图片
-    img_waiting = PhotoImage(Image.open("C:/Users/CJ/Desktop/icon/waiting.png").resize((16, 16)))
-    img_downloading = PhotoImage(Image.open("C:/Users/CJ/Desktop/icon/downloading.png").resize((16, 16)))
-    img_success = PhotoImage(Image.open("C:/Users/CJ/Desktop/icon/success.png").resize((16, 16)))
-    img_failure = PhotoImage(Image.open("C:/Users/CJ/Desktop/icon/failure.png").resize((16, 16)))
+    img_waiting = PhotoImage(Image.open(path_to_icon + "/waiting.png").resize((16, 16)))
+    img_downloading = PhotoImage(Image.open(path_to_icon + "/downloading.png").resize((16, 16)))
+    img_success = PhotoImage(Image.open(path_to_icon + "/success.png").resize((16, 16)))
+    img_failure = PhotoImage(Image.open(path_to_icon + "/failure.png").resize((16, 16)))
 
     # 定义全局变量
     logfile_name = "down_img.log"
