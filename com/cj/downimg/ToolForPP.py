@@ -735,9 +735,9 @@ def executeDownload():
                 session_id = driver.session_id
 
                 # 将打开的浏览区url和session_id存储起来，提供给下一次应用
-                file = open('browserMsg.txt', 'w')
-                file.writelines([executor_url, 'n', session_id])
-                file.close()
+                # file = open('browserMsg.txt', 'w')
+                # file.writelines([executor_url, 'n', session_id])
+                # file.close()
                 driver.implicitly_wait(20)
                 driver.set_window_size(1000, 800)
 
