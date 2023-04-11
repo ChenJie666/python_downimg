@@ -498,8 +498,10 @@ def startDownloadGui():
     global win_width
     global win_height
     global save_path
+    global max_sleep_ms
+    global thread_num
     win_width = 550
-    win_height = 140
+    win_height = 170
     # g_screenwidth = int((window.winfo_screenwidth() - win_width) / 2)
     # g_screenheight = int((window.winfo_screenheight() - win_height) / 2)
     window.geometry(f"{win_width}x{win_height}")
@@ -521,11 +523,11 @@ def startDownloadGui():
     # 第二行
     lbl10 = Label(frame, text='开始位置:')
     lbl10.grid(row=1, column=0, sticky=constants.E)
-    var00 = IntVar()
-    var00.set(1)
+    var10 = IntVar()
+    var10.set(1)
     if cnt_start is not None:
-        var00.set(cnt_start)
-    spin_start = Spinbox(frame, from_=0, to=10000, textvariable=var00)
+        var10.set(cnt_start)
+    spin_start = Spinbox(frame, from_=0, to=10000, textvariable=var10)
     spin_start.grid(row=1, column=1, columnspan=2, sticky=constants.W + constants.E)
     lbl11 = Label(frame, text='结束位置:')
     lbl11.grid(row=1, column=3, sticky=constants.E)
@@ -554,11 +556,31 @@ def startDownloadGui():
     button.grid(row=2, column=5, sticky=constants.E)
 
     # 第四行
+    lbl30 = Label(frame, text='睡眠(ms):')
+    lbl30.grid(row=3, column=0, sticky=constants.E)
+    var30 = IntVar()
+    var30.set(500)
+    if max_sleep_ms is not None:
+        var30.set(max_sleep_ms)
+    spin_max_sleep_ms = Spinbox(frame, from_=0, to=10000, textvariable=var30)
+    spin_max_sleep_ms.grid(row=3, column=1, columnspan=2, sticky=constants.W + constants.E)
+    lbl31 = Label(frame, text='线程数:')
+    lbl31.grid(row=3, column=3, sticky=constants.E)
+    var31 = IntVar()
+    var31.set(8)
+    if thread_num is not None:
+        var31.set(thread_num)
+    spin_thread_num = Spinbox(frame, from_=0, to=10000, textvariable=var31)
+    spin_thread_num.grid(row=3, column=4, columnspan=2, sticky=constants.W)
+
+    # 第五行
     def click_run():
         global cnt_start
         global cnt_end
         global save_path
         global keywords
+        global max_sleep_ms
+        global thread_num
 
         keywords = entry_keyword.get()
         save_path = entry_path.get()
@@ -573,8 +595,10 @@ def startDownloadGui():
         try:
             cnt_start = int(spin_start.get())
             cnt_end = int(spin_end.get())
+            max_sleep_ms = int(spin_max_sleep_ms.get())
+            thread_num = int(spin_thread_num.get())
         except Exception as exception:
-            messagebox.showinfo("提示", "位置信息需要填写整数")
+            messagebox.showinfo("提示", "信息需要填写整数")
             return
 
         # 先清理再跳转
@@ -584,7 +608,7 @@ def startDownloadGui():
         execDownloadGui()
 
     button_run = Button(frame, text='开始', command=click_run)
-    button_run.grid(row=3, column=2, columnspan=4, sticky=constants.W + constants.E, pady=10, padx=5)
+    button_run.grid(row=4, column=2, columnspan=4, sticky=constants.W + constants.E, pady=10, padx=5)
 
     def click_back():
         # 先清理再跳转
@@ -594,7 +618,7 @@ def startDownloadGui():
         initGui()
 
     button_back = Button(frame, text='返回', command=click_back)
-    button_back.grid(row=3, column=0, columnspan=2, sticky=constants.W + constants.E, pady=10, padx=5)
+    button_back.grid(row=4, column=0, columnspan=2, sticky=constants.W + constants.E, pady=10, padx=5)
 
 
 def execDownloadGui():
@@ -833,9 +857,11 @@ def executeDownload():
                 with open(path.join(save_path, 'Imgs', logfile_name), 'a', encoding='utf-8') as log:
                     log.buffer.write(f'Success: 处理完成 关键字:[{keyword}]  序号:[{index + 1}]  网址:{img_url} \n'.encode())
 
-            with ThreadPoolExecutor(max_workers=8) as executor2:
+            global thread_num
+            with ThreadPoolExecutor(max_workers=thread_num) as executor2:
                 for index, img_url in enumerate(img_urls):
-                    time.sleep(random.randint(1, 5)/10)
+                    global max_sleep_ms
+                    time.sleep(random.randint(1, max_sleep_ms) / 1000)
                     args3 = [keyword, img_url, index]
                     executor2.submit(downloadImg, args3)
                 # downloadImg(keyword,img_url)
@@ -865,11 +891,13 @@ if __name__ == '__main__':
     # 下载功能的全局变量
     search_ori_url = f'https://image.baidu.com/search/index?tn=baiduimage&ie=utf-8&word='
     save_path = None
-    cnt_start = None
-    cnt_end = None
+    cnt_start = 1
+    cnt_end = 20
     keywords = None
     keyword_urls_complete_num = {}
     keyword_progress_text = {}
+    thread_num = 10
+    max_sleep_ms = 500
 
     # 上传功能的全局变量
     read_path = None
@@ -891,7 +919,7 @@ if __name__ == '__main__':
 
     # 引入图片
     bundle_dir = getattr(sys, '_MEIPASS', path.abspath(path.dirname(__file__)))
-    path_to_icon = path.join(bundle_dir, 'icon')
+    path_to_icon = path.join(bundle_dir, 'ppicon')
 
     window = Tk()
     window.title("Tool For PaddlePaddle                                      Authored By CJ")
