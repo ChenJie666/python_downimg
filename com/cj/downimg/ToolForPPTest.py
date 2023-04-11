@@ -11,7 +11,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.edge.options import Options
 from threading import Thread, Lock
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ThreadPoolExecutor,ProcessPoolExecutor
 from urllib.request import urlretrieve
 from logging import basicConfig, getLogger
 from datetime import datetime
@@ -706,7 +706,7 @@ def execDownloadGui():
 
 
 def executeDownload():
-    with ThreadPoolExecutor(max_workers=8) as executor:
+    with ThreadPoolExecutor(max_workers=3) as executor:
         def getImgUrls(keyword):
             # logger.info(f'正在处理：{file}')
 
@@ -773,9 +773,10 @@ def executeDownload():
 
         def downloadImgs(future):
             keyword, img_urls = future.result()
+            keyword, img_urls = future.result()
 
-            def downloadImg(args3):
-                keyword, img_url, index = args3
+            def downloadImg(args2):
+                keyword, img_url = args2
                 imgs_path = path.join(save_path, 'Imgs')
                 if not path.exists(imgs_path):
                     mkdir(imgs_path)
@@ -792,7 +793,7 @@ def executeDownload():
                 try:
                     # TODO 设置睡眠时间
                     # time.sleep(random.randint(1, 5) / 10)
-                    print(f'关键字:[{keyword}]  序号:[{index + 1}]  网址:{img_url}')
+                    print('keyword: ' + keyword , '  下载' + img_url, '  线程号为:' + str(os.getpid()))
                     urlretrieve(img_url, img_abspath)
 
                     # 设置公共变量词典，key为keyword，value为tuple类型，存储 (成功数,处理数)
@@ -833,11 +834,10 @@ def executeDownload():
                 with open(path.join(save_path, 'Imgs', logfile_name), 'a', encoding='utf-8') as log:
                     log.buffer.write(f'Success: 处理完成 关键字:[{keyword}]  序号:[{index + 1}]  网址:{img_url} \n'.encode())
 
-            with ThreadPoolExecutor(max_workers=8) as executor2:
+            with ThreadPoolExecutor(max_workers=6) as executor2:
                 for index, img_url in enumerate(img_urls):
-                    time.sleep(random.randint(1, 5)/10)
-                    args3 = [keyword, img_url, index]
-                    executor2.submit(downloadImg, args3)
+                    args2 = [keyword, img_url]
+                    executor2.submit(downloadImg, args2)
                 # downloadImg(keyword,img_url)
 
         for keyword in keywords.split(';'):
@@ -906,10 +906,6 @@ if __name__ == '__main__':
     g_screenheight = int((window.winfo_screenheight() - win_height) / 2)
     window.geometry(f"{win_width}x{win_height}+{g_screenwidth}+{g_screenheight}")
     window.iconbitmap(path_to_icon + '/favicon.ico')
-
-    try:
-        initGui()
-    except Exception as e:
-        messagebox.showinfo("提示", str(e))
+    initGui()
 
     window.mainloop()
