@@ -91,7 +91,9 @@ def download_pics(url, file):
     abs_location = path.join(targer_dir, pic_name)
     urlretrieve(url, abs_location)
 
-    rel_location = f"{filename[:filename.rindex('.')]}.assets\\{pic_name}"
+    # TODO 这里需要根据操作系统可以识别的目录分隔符来选择，如typero可以识别"/"和"\"，但是obsidian只识别"/"，所以这里改为"/"
+    rel_location = f"{filename[:filename.rindex('.')]}.assets/{pic_name}"
+    # rel_location = f"{filename[:filename.rindex('.')]}.assets\\{pic_name}"
     return rel_location
 
 
